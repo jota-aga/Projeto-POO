@@ -11,7 +11,7 @@ public class RepositorioPaciente {
 		this.pacientes = new ArrayList<>();
 	}
 	
-	public void cadastrarPaciente(Paciente p) {
+	public void adicionarPaciente(Paciente p) {
 		pacientes.add(p);
 	}
 	
@@ -19,7 +19,7 @@ public class RepositorioPaciente {
 		pacientes.remove(p);
 	}
 	
-	public Paciente findByCpf(String cpf) {
+	public Paciente procurarPorCpf(String cpf) {
 		for(Paciente p : pacientes) {
 			if(p.getCpf().equals(cpf)) {
 				return p;

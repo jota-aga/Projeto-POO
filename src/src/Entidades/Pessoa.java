@@ -1,14 +1,15 @@
 package src.Entidades;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class Pessoa {
 	private String nome;
 	private String cpf;
 	private String email;
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 	
-	public Pessoa(String nome, String cpf, String email, Date dataNascimento) {
+	public Pessoa(String nome, String cpf, String email, LocalDate dataNascimento) {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
@@ -39,11 +40,11 @@ public class Pessoa {
 		this.email = email;
 	}
 	
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 	
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

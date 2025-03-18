@@ -1,11 +1,11 @@
 package src.Entidades;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Paciente extends Pessoa {
 	private String cartaoMedico;
 	
-	public Paciente(String nome, String cpf, String email, Date dataNascimento, String cartaoMedico) {
+	public Paciente(String nome, String cpf, String email, LocalDate dataNascimento, String cartaoMedico) {
 		super(nome, cpf, email, dataNascimento);
 		this.cartaoMedico = cartaoMedico;
 	}

@@ -1,78 +1,97 @@
 package src.Controller;
 
-import java.text.ParseException;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import src.Entidades.Paciente;
-import src.Repositorio.RepositorioPaciente;
+
+import src.Entidades.Medico;
+import src.Repositorio.RepositorioMedico;
 
 
 public class controllerMedico {
-	private RepositorioPaciente rep;
+	private RepositorioMedico rep = new RepositorioMedico();
 	private Scanner s = new Scanner(System.in);
 	
-	public void cadastrarMedico()  {
+	public Medico lerMedico()  {
 	    String nome;
 		long cpfTeste;
-		String cartaoMedico;
+		long crmTeste;
 		String email;
-		Date dataNascimento = null;
+		String especialidade;
+		LocalDate dataNascimento;
 		
 		System.out.print("Digite o nome do médico: ");
 		nome = s.nextLine();
 		
 		System.out.print("Digite o CRM do médico: ");
-		cartaoMedico = s.nextLine();
+		crmTeste = s.nextLong();
+		s.nextLine();
+		String crm = String.valueOf(crmTeste);
 		
-		System.out.print("Digite o email do paciente: ");
+		System.out.print("Digite o email do médico: ");
 		email = s.nextLine();
 		
-		System.out.print("Digite o CPF do paciente: ");
-		cpfTeste = s.nextLong();
-		s.nextLine();
+		System.out.print("Digite a especialidade do médico: ");
+		especialidade = s.nextLine();
 		
-		System.out.print("Digite a data de nascimento do paciente no formato XX XX XXXX : ");
+		System.out.print("Digite o CPF do médico: ");
+		cpfTeste = s.nextLong();
+		s.nextLine();
+		String cpf = String.valueOf(cpfTeste);
+		
+		System.out.print("Digite a data de nascimento do médico no formato XX XX XXXX : ");
 		String dataFormatada = s.nextLine();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-			dataNascimento = sdf.parse(dataFormatada);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-        String cpf =  String.valueOf(cpfTeste);
-		Paciente p = new Paciente(nome, cpf, email, dataNascimento, cartaoMedico);
-		rep.cadastrarPaciente(p);
-		System.out.println("Cadastro efetuado com sucesso");
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
+        
+       
+        dataNascimento = LocalDate.parse(dataFormatada, formatter);
+		
+        
+		Medico m = new Medico(nome, cpf, email, dataNascimento, especialidade, crm);
+		return m;
+	}
+	
+	public void cadastrarMedico() {
+		Medico m = lerMedico();
+		
+		rep.adicionarMedico(m);
 	}
 	
 	
 	
-	public void findByCpf() {
+	public void procurarCpf() {
 		long cpfTeste;
 		String cpf;
 		System.out.print("Digite o cpf que deseja procurar: ");
 		cpfTeste = s.nextLong();
 		s.nextLine();
 		cpf = String.valueOf(cpfTeste);
-		rep.findByCpf(cpf);
+		Medico m = rep.procurarPorCpf(cpf);
 	}
 	
-	public void removerPaciente() {
+	public void procurarMedicosPorEspecialidade() {
+		String especialidade;
+		System.out.print("Digite a especialidado que deseja procurar: ");
+		especialidade = s.nextLine();
+		
+		Medico m = rep.procurarPorEspecialidade(especialidade);
+	}
+	
+	public void excluirMedico() {
 		long cpfTeste;
 		String cpf;
 		System.out.print("Digite o cpf que deseja procurar: ");
 		cpfTeste = s.nextLong();
 		s.nextLine();
 		cpf = String.valueOf(cpfTeste);
-		Paciente p = rep.findByCpf(cpf);
-		rep.removerPaciente(p);
+		Medico m = rep.procurarPorCpf(cpf);
+		rep.removerMedico(m);
 		System.out.println("Remoção efetuada com sucesso");
 		
 	}
 	
-	public void editarPaciente() {
+	public void editarMedico() {
 		String novaInfo;
 		int opcao = 0;
 		long cpfTeste;
@@ -80,35 +99,53 @@ public class controllerMedico {
 		
 		System.out.print("Digite o CPF do paciente: ");
 		cpfTeste = s.nextLong();
+		s.nextLine();
 		
 		cpf = String.valueOf(cpfTeste);
-		Paciente p = rep.findByCpf(cpf);
+		Medico m = rep.procurarPorCpf(cpf);
 		
-		System.out.println("Qual informação deseja editar\n1 - nome\n2 - email3 - Cartão Médico\n 4 - Data de nascimento\n");
+		System.out.println("Qual informação deseja editar\n1 - nome\n2 - email3 - Especialidade\n 4 - Data de nascimento\n5 - Sair");
 		opcao = s.nextInt();
 		s.nextLine();
 		
-		while(opcao < 1 || opcao > 4) {
+		while(opcao != 5) {
 			if(opcao == 1) {
 				System.out.print("Digite o novo nome: ");
 				novaInfo = s.nextLine();
-				p.setNome(novaInfo);
+				m.setNome(novaInfo);
 			}
 			
 			else if(opcao == 2) {
 				System.out.print("Digite o novo email: ");
 				novaInfo = s.nextLine();
-				p.setEmail(novaInfo);
+				m.setEmail(novaInfo);
 			}
 			
 			else if( opcao == 3) {	
 				System.out.print("Digite o novo cartão médico: ");
 				novaInfo = s.nextLine();
-				p.setCartaoMedico(novaInfo);
+				m.setEspecialidade(novaInfo);
+			}
+			
+			else if(opcao == 4) {
+				System.out.print("Digite a nova data de nascimento: ");
+				novaInfo = s.nextLine();
+				
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
+		        
+			       
+		        LocalDate dataNascimento = LocalDate.parse(novaInfo, formatter);
+				
+				
+				m.setDataNascimento(dataNascimento);
+			}
+			
+			else if(opcao == 5) {
+				System.out.println("Saindo...");
 			}
 			
 			else {
-				System.out.println("Opção inválida!");
+				System.out.println("Opção inválida! Tente novamente.");
 			}
 		}
 	}

@@ -1,12 +1,12 @@
 package src.Entidades;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Medico extends Pessoa {
 	private String especialidade;
-	private long crm;
+	private String crm;
 	
-	public Medico(String nome, String cpf, String email, Date dataNascimento, String especialidade, long crm) {
+	public Medico(String nome, String cpf, String email, LocalDate dataNascimento, String especialidade, String crm) {
 		super(nome, cpf, email, dataNascimento);
 		this.especialidade = especialidade;
 		this.crm = crm;
@@ -20,11 +20,11 @@ public class Medico extends Pessoa {
 		this.especialidade = especialidade;
 	}
 
-	public long getCrm() {
+	public String getCrm() {
 		return crm;
 	}
 
-	public void setCrm(long crm) {
+	public void setCrm(String crm) {
 		this.crm = crm;
 	}
 

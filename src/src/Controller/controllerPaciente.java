@@ -1,9 +1,7 @@
 package src.Controller;
 
-import java.text.ParseException;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import src.Entidades.Paciente;
 import src.Repositorio.RepositorioPaciente;
@@ -13,12 +11,12 @@ public class controllerPaciente {
 	private RepositorioPaciente rep;
 	private Scanner s = new Scanner(System.in);
 	
-	public void cadastrarPaciente()  {
+	public Paciente lerPaciente()  {
 	    String nome;
 		long cpfTeste;
 		String cartaoMedico;
 		String email;
-		Date dataNascimento = null;
+		LocalDate dataNascimento = null;
 		
 		System.out.print("Digite o nome do paciente: ");
 		nome = s.nextLine();
@@ -35,17 +33,19 @@ public class controllerPaciente {
 		
 		System.out.print("Digite a data de nascimento do paciente no formato XX XX XXXX : ");
 		String dataFormatada = s.nextLine();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-			dataNascimento = sdf.parse(dataFormatada);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
+        
+       
+        dataNascimento = LocalDate.parse(dataFormatada, formatter);
         String cpf =  String.valueOf(cpfTeste);
 		Paciente p = new Paciente(nome, cpf, email, dataNascimento, cartaoMedico);
-		rep.cadastrarPaciente(p);
-		System.out.println("Cadastro efetuado com sucesso");
+		return p;
+	}
+	
+	public void cadastrarPaciente() {
+		Paciente p = lerPaciente();
+		rep.adicionarPaciente(p);
 	}
 	
 	
@@ -57,7 +57,7 @@ public class controllerPaciente {
 		cpfTeste = s.nextLong();
 		s.nextLine();
 		cpf = String.valueOf(cpfTeste);
-		rep.findByCpf(cpf);
+		rep.procurarPorCpf(cpf);
 	}
 	
 	public void removerPaciente() {
@@ -67,7 +67,7 @@ public class controllerPaciente {
 		cpfTeste = s.nextLong();
 		s.nextLine();
 		cpf = String.valueOf(cpfTeste);
-		Paciente p = rep.findByCpf(cpf);
+		Paciente p = rep.procurarPorCpf(cpf);
 		rep.removerPaciente(p);
 		System.out.println("Remoção efetuada com sucesso");
 		
@@ -83,7 +83,7 @@ public class controllerPaciente {
 		cpfTeste = s.nextLong();
 		
 		cpf = String.valueOf(cpfTeste);
-		Paciente p = rep.findByCpf(cpf);
+		Paciente p = rep.procurarPorCpf(cpf);
 		
 		System.out.println("Qual informação deseja editar\n1 - nome\n2 - email3 - Cartão Médico\n 4 - Data de nascimento\n");
 		opcao = s.nextInt();
@@ -106,6 +106,23 @@ public class controllerPaciente {
 				System.out.print("Digite o novo cartão médico: ");
 				novaInfo = s.nextLine();
 				p.setCartaoMedico(novaInfo);
+			}
+			
+			else if(opcao == 4) {
+				System.out.print("Digite a nova data de nascimento: ");
+				novaInfo = s.nextLine();
+				
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
+		        
+			       
+		        LocalDate dataNascimento = LocalDate.parse(novaInfo, formatter);
+				
+				
+				p.setDataNascimento(dataNascimento);
+			}
+			
+			else if(opcao == 5) {
+				System.out.println("Saindo...");
 			}
 			
 			else {
