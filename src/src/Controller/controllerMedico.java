@@ -1,29 +1,29 @@
 package src.Controller;
 
 import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import src.Entidades.Paciente;
-import src.Repositorio.Repositorio;
+import src.Repositorio.RepositorioPaciente;
 
 
-public class cadastroPaciente {
-	private Repositorio rep;
+public class controllerMedico {
+	private RepositorioPaciente rep;
 	private Scanner s = new Scanner(System.in);
 	
-	public void cadastrarPaciente()  {
+	public void cadastrarMedico()  {
 	    String nome;
 		long cpfTeste;
 		String cartaoMedico;
 		String email;
 		Date dataNascimento = null;
 		
-		System.out.print("Digite o nome do paciente: ");
+		System.out.print("Digite o nome do médico: ");
 		nome = s.nextLine();
 		
-		System.out.print("Digite o cartão médico do paciente: ");
+		System.out.print("Digite o CRM do médico: ");
 		cartaoMedico = s.nextLine();
 		
 		System.out.print("Digite o email do paciente: ");

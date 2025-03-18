@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import src.Entidades.Paciente;
 
 
-public class Repositorio {
+public class RepositorioPaciente {
 	private ArrayList<Paciente> pacientes;
 	
-	public Repositorio() {
+	public RepositorioPaciente() {
 		this.pacientes = new ArrayList<>();
 	}
 	
