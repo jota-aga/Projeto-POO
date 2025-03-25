@@ -49,6 +49,7 @@ public abstract class Pessoa {
 	}
 
 	public abstract String getInformacoes();
-	
+
+	public abstract boolean equals(Object obj);
 	
 }

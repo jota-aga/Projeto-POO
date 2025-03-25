@@ -19,11 +19,6 @@ public class Paciente extends Pessoa {
 	}
 
 	@Override
-	public String toString() {
-		return "Paciente [cartaoMedico=" + cartaoMedico + "]";
-	}
-
-	@Override
 	public String getInformacoes() {
 		return "Nome: " + getNome() +
 				", CPF: " + getCpf()+
@@ -31,6 +26,23 @@ public class Paciente extends Pessoa {
 				", Nascimento: " + getDataNascimento()+
 				", CartaoMedico: " + getCartaoMedico();			
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) return true;
+		if(obj == null || getClass() != obj.getClass()) return false;
+		
+		Paciente outro = (Paciente) obj;
+		return this.getCpf().equals(outro.getCpf());
+	}
+
+
+
+	@Override
+	public int hashCode() {
+	    return getCpf().hashCode(); 
+	}
+
 	
 	
 }

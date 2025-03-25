@@ -28,11 +28,7 @@ public class Medico extends Pessoa {
 		this.crm = crm;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("Medico [especialidade=%s, crm=%s]", especialidade, crm);
-	}
-
+	
 	@Override
 	public String getInformacoes() {
 		return "Nome: " + getNome() +
@@ -44,7 +40,21 @@ public class Medico extends Pessoa {
 	}
 	
 
-	
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) return true;
+		if(obj == null || getClass() != obj.getClass()) return false;
+		
+		Medico outro = (Medico) obj;
+		return this.getCpf().equals(outro.getCpf());
+	}
+
+
+
+	@Override
+	public int hashCode() {
+	    return getCpf().hashCode(); 
+	}
 	
 	
 }
