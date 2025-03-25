@@ -1,5 +1,9 @@
 package src.Controller;
 
+import src.Exceptions.CpfApenasNumerosException;
+import src.Exceptions.CpfNaoCadastradoException;
+import src.Exceptions.CpfTamanhoInvalidoException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -7,13 +11,14 @@ import src.Entidades.Paciente;
 import src.Repositorio.RepositorioPaciente;
 
 
-public class controllerPaciente {
+public class controllerPaciente{
 	private RepositorioPaciente rep;
+	private Validador valida = new Validador();
 	private Scanner s = new Scanner(System.in);
 	
-	public Paciente lerPaciente()  {
+	public Paciente lerPaciente() throws CpfApenasNumerosException, CpfTamanhoInvalidoException {
 	    String nome;
-		long cpfTeste;
+		String cpf;
 		String cartaoMedico;
 		String email;
 		LocalDate dataNascimento = null;
@@ -28,8 +33,8 @@ public class controllerPaciente {
 		email = s.nextLine();
 		
 		System.out.print("Digite o CPF do paciente: ");
-		cpfTeste = s.nextLong();
-		s.nextLine();
+		cpf = s.nextLine();
+		valida.validarCpf(cpf);
 		
 		System.out.print("Digite a data de nascimento do paciente no formato XX XX XXXX : ");
 		String dataFormatada = s.nextLine();
@@ -38,52 +43,68 @@ public class controllerPaciente {
         
        
         dataNascimento = LocalDate.parse(dataFormatada, formatter);
-        String cpf =  String.valueOf(cpfTeste);
 		Paciente p = new Paciente(nome, cpf, email, dataNascimento, cartaoMedico);
 		return p;
 	}
 	
-	public void cadastrarPaciente() {
+	public void cadastrarPaciente() throws CpfApenasNumerosException, CpfTamanhoInvalidoException {
 		Paciente p = lerPaciente();
 		rep.adicionarPaciente(p);
 	}
 	
 	
 	
-	public void findByCpf() {
-		long cpfTeste;
+	public Paciente findByCpf() throws CpfApenasNumerosException, CpfTamanhoInvalidoException, CpfNaoCadastradoException {
+		
 		String cpf;
 		System.out.print("Digite o cpf que deseja procurar: ");
-		cpfTeste = s.nextLong();
-		s.nextLine();
-		cpf = String.valueOf(cpfTeste);
-		rep.procurarPorCpf(cpf);
+		cpf = s.nextLine();
+		valida.validarCpf(cpf);
+		
+		
+		Paciente p = rep.procurarPorCpf(cpf);
+		
+		if(p == null) {
+			throw new CpfNaoCadastradoException();
+		}
+		
+		return p;
 	}
 	
-	public void removerPaciente() {
-		long cpfTeste;
+	public void removerPaciente() throws CpfApenasNumerosException, CpfTamanhoInvalidoException, CpfNaoCadastradoException {
+		
 		String cpf;
 		System.out.print("Digite o cpf que deseja procurar: ");
-		cpfTeste = s.nextLong();
-		s.nextLine();
-		cpf = String.valueOf(cpfTeste);
+		cpf = s.nextLine();
+		
+		valida.validarCpf(cpf);
+		
+		
 		Paciente p = rep.procurarPorCpf(cpf);
+		if(p == null) {
+			throw new CpfNaoCadastradoException();
+		}
 		rep.removerPaciente(p);
 		System.out.println("Remoção efetuada com sucesso");
 		
 	}
 	
-	public void editarPaciente() {
+	public void editarPaciente() throws CpfApenasNumerosException, CpfTamanhoInvalidoException, CpfNaoCadastradoException {
 		String novaInfo;
 		int opcao = 0;
-		long cpfTeste;
 		String cpf;
 		
 		System.out.print("Digite o CPF do paciente: ");
-		cpfTeste = s.nextLong();
+		cpf = s.nextLine();
 		
-		cpf = String.valueOf(cpfTeste);
+		valida.validarCpf(cpf);
+		
+		
 		Paciente p = rep.procurarPorCpf(cpf);
+		
+		if(p == null) {
+			throw new CpfNaoCadastradoException();
+		}
 		
 		System.out.println("Qual informação deseja editar\n1 - nome\n2 - email3 - Cartão Médico\n 4 - Data de nascimento\n");
 		opcao = s.nextInt();
