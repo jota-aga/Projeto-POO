@@ -64,7 +64,7 @@ private ArrayList<Medico> medicos;
 	@Override
 	public void listar() {
 		for(Medico p : medicos) {
-			System.out.println(p);
+			System.out.println(p.getInformacoes());
 		}
 	}
 	

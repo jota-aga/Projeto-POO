@@ -17,4 +17,5 @@ public interface IRepositorioPacientes {
 	void listar();
 	
 	boolean existe(String cpf);
+	
 }
