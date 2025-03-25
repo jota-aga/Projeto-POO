@@ -22,6 +22,15 @@ public class Paciente extends Pessoa {
 	public String toString() {
 		return "Paciente [cartaoMedico=" + cartaoMedico + "]";
 	}
+
+	@Override
+	public String getInformacoes() {
+		return "Nome: " + getNome() +
+				", CPF: " + getCpf()+
+				", E-mail: " + getEmail()+
+				", Nascimento: " + getDataNascimento()+
+				", CartaoMedico: " + getCartaoMedico();			
+	}
 	
 	
 }

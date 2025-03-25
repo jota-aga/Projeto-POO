@@ -33,6 +33,15 @@ public class Medico extends Pessoa {
 		return String.format("Medico [especialidade=%s, crm=%s]", especialidade, crm);
 	}
 
+	@Override
+	public String getInformacoes() {
+		return "Nome: " + getNome() +
+				", CPF: " + getCpf()+
+				", E-mail: " + getEmail()+
+				", Nascimento: " + getDataNascimento()+
+				", Especialidade: " + getEspecialidade()+
+				", CRM: " + getCrm();
+	}
 	
 
 	
