@@ -1,5 +1,11 @@
 package src.Controller;
 
+import src.Exceptions.CpfApenasNumerosException;
+import src.Exceptions.CpfTamanhoInvalidoException;
+import src.Exceptions.CrmApenasNumerosException;
+import src.Exceptions.EspecialidadeNaoCadastradaException;
+import src.Exceptions.CpfNaoCadastradoException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -10,12 +16,13 @@ import src.Repositorio.RepositorioMedico;
 
 public class controllerMedico {
 	private RepositorioMedico rep = new RepositorioMedico();
+	private Validador valida = new Validador();
 	private Scanner s = new Scanner(System.in);
 	
-	public Medico lerMedico()  {
+	public Medico lerMedico() throws CpfApenasNumerosException, CpfTamanhoInvalidoException, CrmApenasNumerosException{
 	    String nome;
-		long cpfTeste;
-		long crmTeste;
+		String cpf;
+		String crm;
 		String email;
 		String especialidade;
 		LocalDate dataNascimento;
@@ -24,9 +31,9 @@ public class controllerMedico {
 		nome = s.nextLine();
 		
 		System.out.print("Digite o CRM do médico: ");
-		crmTeste = s.nextLong();
-		s.nextLine();
-		String crm = String.valueOf(crmTeste);
+		crm = s.nextLine();
+		valida.validarCrm(crm);
+		
 		
 		System.out.print("Digite o email do médico: ");
 		email = s.nextLine();
@@ -35,9 +42,9 @@ public class controllerMedico {
 		especialidade = s.nextLine();
 		
 		System.out.print("Digite o CPF do médico: ");
-		cpfTeste = s.nextLong();
-		s.nextLine();
-		String cpf = String.valueOf(cpfTeste);
+		cpf = s.nextLine();
+		valida.validarCpf(cpf);
+		
 		
 		System.out.print("Digite a data de nascimento do médico no formato XX XX XXXX : ");
 		String dataFormatada = s.nextLine();
@@ -52,7 +59,7 @@ public class controllerMedico {
 		return m;
 	}
 	
-	public void cadastrarMedico() {
+	public void cadastrarMedico() throws CpfApenasNumerosException, CpfTamanhoInvalidoException, CrmApenasNumerosException {
 		Medico m = lerMedico();
 		
 		rep.adicionarMedico(m);
@@ -60,49 +67,67 @@ public class controllerMedico {
 	
 	
 	
-	public void procurarCpf() {
-		long cpfTeste;
+	public Medico procurarCpf() throws CpfApenasNumerosException, CpfTamanhoInvalidoException, CpfNaoCadastradoException {
 		String cpf;
 		System.out.print("Digite o cpf que deseja procurar: ");
-		cpfTeste = s.nextLong();
-		s.nextLine();
-		cpf = String.valueOf(cpfTeste);
+		cpf = s.nextLine();
+		valida.validarCpf(cpf);
+		
 		Medico m = rep.procurarPorCpf(cpf);
+		if(m == null) {
+			throw new CpfNaoCadastradoException();
+		}
+		return m;
 	}
 	
-	public void procurarMedicosPorEspecialidade() {
+	public Medico procurarMedicosPorEspecialidade() throws EspecialidadeNaoCadastradaException {
 		String especialidade;
-		System.out.print("Digite a especialidado que deseja procurar: ");
+		System.out.print("Digite a especialidade que deseja procurar: ");
 		especialidade = s.nextLine();
 		
 		Medico m = rep.procurarPorEspecialidade(especialidade);
+		
+		if(m == null) {
+			throw new EspecialidadeNaoCadastradaException();
+		}
+		return m;
 	}
 	
-	public void excluirMedico() {
-		long cpfTeste;
+	public void excluirMedico() throws CpfNaoCadastradoException, CpfApenasNumerosException, CpfTamanhoInvalidoException {
 		String cpf;
+		
 		System.out.print("Digite o cpf que deseja procurar: ");
-		cpfTeste = s.nextLong();
+		cpf = s.nextLine();
 		s.nextLine();
-		cpf = String.valueOf(cpfTeste);
+		valida.validarCpf(cpf);
+		
 		Medico m = rep.procurarPorCpf(cpf);
+		
+		if(m == null) {
+			throw new CpfNaoCadastradoException();
+		}
+		
 		rep.removerMedico(m);
 		System.out.println("Remoção efetuada com sucesso");
 		
 	}
 	
-	public void editarMedico() {
+	public void editarMedico() throws CpfApenasNumerosException, CpfTamanhoInvalidoException, CpfNaoCadastradoException  {
 		String novaInfo;
 		int opcao = 0;
-		long cpfTeste;
+		
 		String cpf;
 		
 		System.out.print("Digite o CPF do paciente: ");
-		cpfTeste = s.nextLong();
+		cpf = s.nextLine();
 		s.nextLine();
+		valida.validarCpf(cpf);
 		
-		cpf = String.valueOf(cpfTeste);
 		Medico m = rep.procurarPorCpf(cpf);
+		
+		if(m == null) {
+			throw new CpfNaoCadastradoException();
+		}
 		
 		System.out.println("Qual informação deseja editar\n1 - nome\n2 - email3 - Especialidade\n 4 - Data de nascimento\n5 - Sair");
 		opcao = s.nextInt();
