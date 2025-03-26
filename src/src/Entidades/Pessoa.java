@@ -2,6 +2,9 @@ package src.Entidades;
 
 import java.time.LocalDate;
 
+import src.Exceptions.CpfApenasNumerosException;
+import src.Exceptions.CpfTamanhoInvalidoException;
+
 
 public class Pessoa {
 	private String nome;
@@ -9,11 +12,12 @@ public class Pessoa {
 	private String email;
 	private LocalDate dataNascimento;
 	
-	public Pessoa(String nome, String cpf, String email, LocalDate dataNascimento) {
+	public Pessoa(String nome, String cpf, String email, LocalDate dataNascimento) throws CpfApenasNumerosException, CpfTamanhoInvalidoException {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 		this.dataNascimento = dataNascimento;
+		ValidadorAtributos.validarCpf(cpf);
 	}
 	
 	public String getNome() {
