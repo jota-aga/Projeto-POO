@@ -9,8 +9,8 @@ public class Paciente extends Pessoa {
 	private String cartaoMedico;
 	
 	
-	public Paciente(String nome, String cpf, String email, LocalDate dataNascimento, String cartaoMedico) throws CpfApenasNumerosException, CpfTamanhoInvalidoException{
-		super(nome, cpf, email, dataNascimento);
+	public Paciente(String nome, String cpf, String email, String telefone, LocalDate dataNascimento, String cartaoMedico) throws CpfApenasNumerosException, CpfTamanhoInvalidoException{
+		super(nome, cpf, email, telefone, dataNascimento);
 		this.cartaoMedico = cartaoMedico;
 	}
 
