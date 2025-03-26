@@ -33,10 +33,32 @@ public class Medico extends Pessoa {
 	public void setCrm(String crm) {
 		this.crm = crm;
 	}
+	
+	@Override
+	public String getInformacoes() {
+		return "Nome: " + getNome() +
+				", CPF: " + getCpf()+
+				", E-mail: " + getEmail()+
+				", Nascimento: " + getDataNascimento()+
+				", Especialidade: " + getEspecialidade()+
+				", CRM: " + getCrm();
+	}
+	
 
 	@Override
-	public String toString() {
-		return String.format("Medico [especialidade=%s, crm=%s]", especialidade, crm);
+	public boolean equals(Object obj) {
+		if(this == obj) return true;
+		if(obj == null || getClass() != obj.getClass()) return false;
+		
+		Medico outro = (Medico) obj;
+		return this.getCpf().equals(outro.getCpf());
+	}
+
+
+
+	@Override
+	public int hashCode() {
+	    return getCpf().hashCode(); 
 	}
 
 }

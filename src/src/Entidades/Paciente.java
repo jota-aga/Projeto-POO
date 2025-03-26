@@ -21,15 +21,30 @@ public class Paciente extends Pessoa {
 	public void setCartaoMedico(String cartaoMedico) {
 		this.cartaoMedico = cartaoMedico;
 	}
-
+	
 	@Override
-	public String toString() {
-		return String.format("Paciente [cartaoMedico=%s]", cartaoMedico);
+	public String getInformacoes() {
+		return "Nome: " + getNome() +
+				", CPF: " + getCpf()+
+				", E-mail: " + getEmail()+
+				", Nascimento: " + getDataNascimento()+
+				", CartaoMedico: " + getCartaoMedico();			
 	}
 
-	
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) return true;
+		if(obj == null || getClass() != obj.getClass()) return false;
+		
+		Paciente outro = (Paciente) obj;
+		return this.getCpf().equals(outro.getCpf());
+	}
 
-	
-	
-	
+
+
+	@Override
+	public int hashCode() {
+	    return getCpf().hashCode(); 
+	}
+
 }

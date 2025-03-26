@@ -6,7 +6,7 @@ import src.Exceptions.CpfApenasNumerosException;
 import src.Exceptions.CpfTamanhoInvalidoException;
 
 
-public class Pessoa {
+public abstract class Pessoa {
 	private String nome;
 	private String cpf;
 	private String email;
@@ -52,11 +52,9 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	@Override
-	public String toString() {
-		return "Pessoa [nome=" + nome + ", cpf=" + cpf + ", email=" + email + ", dataNascimento=" + dataNascimento
-				+ "]";
-	}
+	public abstract String getInformacoes();
+
+	public abstract boolean equals(Object obj);
 	
 	
 }

@@ -24,9 +24,9 @@ private ArrayList<Medico> medicos;
 	}
 	
 	public Medico consultar(Medico medico) {
-		for(Medico p : medicos) {
-			if(medico.equals(p)) {
-				return p;
+		for(Medico m : medicos) {
+			if(medico.equals(m)) {
+				return m;
 			}
 		}
 		return null;
@@ -34,9 +34,9 @@ private ArrayList<Medico> medicos;
 	
 	@Override
 	public Medico procurarPorCpf(String cpf) {
-		for(Medico p : medicos) {
-			if(p.getCpf().equals(cpf)) {
-				return p;
+		for(Medico m : medicos) {
+			if(m.getCpf().equals(cpf)) {
+				return m;
 			}
 		}
 		return null;
@@ -63,15 +63,15 @@ private ArrayList<Medico> medicos;
 	
 	@Override
 	public void listar() {
-		for(Medico p : medicos) {
-			System.out.println(p);
+		for(Medico m : medicos) {
+			System.out.println(m.getInformacoes());
 		}
 	}
 	
 	@Override
 	public boolean existe(String cpf) {
-		for(Medico p : medicos) {
-			if(p.getCpf().equals(cpf)) {
+		for(Medico m : medicos) {
+			if(m.getCpf().equals(cpf)) {
 				return true;
 			}
 		}

@@ -52,7 +52,7 @@ public class RepositorioPacienteArrayList implements IRepositorioPacientes {
 	@Override
 	public void listar() {
 		for(Paciente p : pacientes) {
-			System.out.println(p);
+			System.out.println(p.getInformacoes());
 		}
 	}
 	
