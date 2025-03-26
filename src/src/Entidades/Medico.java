@@ -2,14 +2,20 @@ package src.Entidades;
 
 import java.time.LocalDate;
 
+import src.Exceptions.CpfApenasNumerosException;
+import src.Exceptions.CpfTamanhoInvalidoException;
+import src.Exceptions.CrmApenasNumerosException;
+
 public class Medico extends Pessoa {
 	private String especialidade;
 	private String crm;
 	
-	public Medico(String nome, String cpf, String email, LocalDate dataNascimento, String especialidade, String crm) {
+	public Medico(String nome, String cpf, String email, LocalDate dataNascimento, String especialidade, String crm) throws CpfApenasNumerosException, CrmApenasNumerosException, CpfTamanhoInvalidoException   {
 		super(nome, cpf, email, dataNascimento);
 		this.especialidade = especialidade;
 		this.crm = crm;
+		ValidadorAtributos.validarCrm(crm);
+		
 	}
 
 	public String getEspecialidade() {
@@ -33,9 +39,4 @@ public class Medico extends Pessoa {
 		return String.format("Medico [especialidade=%s, crm=%s]", especialidade, crm);
 	}
 
-	
-
-	
-	
-	
 }

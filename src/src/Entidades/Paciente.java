@@ -2,10 +2,14 @@ package src.Entidades;
 
 import java.time.LocalDate;
 
+import src.Exceptions.CpfApenasNumerosException;
+import src.Exceptions.CpfTamanhoInvalidoException;
+
 public class Paciente extends Pessoa {
 	private String cartaoMedico;
 	
-	public Paciente(String nome, String cpf, String email, LocalDate dataNascimento, String cartaoMedico) {
+	
+	public Paciente(String nome, String cpf, String email, LocalDate dataNascimento, String cartaoMedico) throws CpfApenasNumerosException, CpfTamanhoInvalidoException{
 		super(nome, cpf, email, dataNascimento);
 		this.cartaoMedico = cartaoMedico;
 	}
@@ -20,8 +24,12 @@ public class Paciente extends Pessoa {
 
 	@Override
 	public String toString() {
-		return "Paciente [cartaoMedico=" + cartaoMedico + "]";
+		return String.format("Paciente [cartaoMedico=%s]", cartaoMedico);
 	}
+
+	
+
+	
 	
 	
 }
