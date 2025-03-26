@@ -10,8 +10,8 @@ public class Medico extends Pessoa {
 	private String especialidade;
 	private String crm;
 	
-	public Medico(String nome, String cpf, String email, LocalDate dataNascimento, String especialidade, String crm) throws CpfApenasNumerosException, CrmApenasNumerosException, CpfTamanhoInvalidoException   {
-		super(nome, cpf, email, dataNascimento);
+	public Medico(String nome, String cpf, String email, String telefone,  LocalDate dataNascimento, String especialidade, String crm) throws CpfApenasNumerosException, CrmApenasNumerosException, CpfTamanhoInvalidoException   {
+		super(nome, cpf, email, telefone, dataNascimento); 
 		this.especialidade = especialidade;
 		this.crm = crm;
 		ValidadorAtributos.validarCrm(crm);

@@ -4,20 +4,23 @@ import java.time.LocalDate;
 
 import src.Exceptions.CpfApenasNumerosException;
 import src.Exceptions.CpfTamanhoInvalidoException;
+import src.Exceptions.TelefoneTamanhoInvalidoException;
 
 
 public abstract class Pessoa {
 	private String nome;
 	private String cpf;
 	private String email;
+	private String telefone;
 	private LocalDate dataNascimento;
 	
-	public Pessoa(String nome, String cpf, String email, LocalDate dataNascimento) throws CpfApenasNumerosException, CpfTamanhoInvalidoException {
+	public Pessoa(String nome, String cpf, String email, String telefone, LocalDate dataNascimento) throws CpfApenasNumerosException, CpfTamanhoInvalidoException, TelefoneTamanhoInvalidoException {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 		this.dataNascimento = dataNascimento;
 		ValidadorAtributos.validarCpf(cpf);
+		ValidadorAtributos.validarTelefone(telefone);
 	}
 	
 	public String getNome() {
@@ -51,6 +54,16 @@ public abstract class Pessoa {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+	
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	
+	
 
 	public abstract String getInformacoes();
 
