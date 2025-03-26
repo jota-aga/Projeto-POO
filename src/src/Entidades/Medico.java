@@ -5,12 +5,13 @@ import java.time.LocalDate;
 import src.Exceptions.CpfApenasNumerosException;
 import src.Exceptions.CpfTamanhoInvalidoException;
 import src.Exceptions.CrmApenasNumerosException;
+import src.Exceptions.TelefoneTamanhoInvalidoException;
 
 public class Medico extends Pessoa {
 	private String especialidade;
 	private String crm;
 	
-	public Medico(String nome, String cpf, String email, String telefone,  LocalDate dataNascimento, String especialidade, String crm) throws CpfApenasNumerosException, CrmApenasNumerosException, CpfTamanhoInvalidoException   {
+	public Medico(String nome, String cpf, String email, String telefone,  LocalDate dataNascimento, String especialidade, String crm) throws CpfApenasNumerosException, CrmApenasNumerosException, CpfTamanhoInvalidoException, TelefoneTamanhoInvalidoException   {
 		super(nome, cpf, email, telefone, dataNascimento); 
 		this.especialidade = especialidade;
 		this.crm = crm;
