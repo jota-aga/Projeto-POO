@@ -3,14 +3,14 @@ package src.Entidades;
 public class Agenda {
 
 	private String horario;
-	private String dia;
+	private String dias;
 	private Medico medico;
 	
 	
-	public Agenda(String horario, String dia, Medico medico) {
+	public Agenda(String horario, String dias, Medico medico) {
 		this.medico = medico;
 		this.horario = horario;
-		this.dia = dia;
+		this.dias = dias;
 	}
 
 
@@ -20,10 +20,10 @@ public class Agenda {
 	public void setHorario(String horario) {this.horario = horario;}
 
 
-	public String getDia() {return dia;}
+	public String getDia() {return dias;}
 
 
-	public void setDia(String dia) {this.dia = dia;}
+	public void setDia(String dias) {this.dias = dias;}
 
 
 	public Medico getMedico() {return medico;}
