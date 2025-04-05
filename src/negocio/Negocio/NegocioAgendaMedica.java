@@ -16,9 +16,7 @@ import negocio.Exceptions.HorarioJaReservadoException;
 public class NegocioAgendaMedica {
 	private AgendaMedica agendaMedica;
 	
-	public NegocioAgendaMedica() {
-		AgendaMedica agendaMedica = new AgendaMedica();
-	}
+	public NegocioAgendaMedica() {}
 	
 	public Consulta procurarConsultaPorId(ArrayList<Consulta> consultas, String id) {
 		for(Consulta consulta : consultas) {
@@ -29,7 +27,8 @@ public class NegocioAgendaMedica {
 		return null;
 	}
 	
-	public Consulta procurarConsultaPorParametros(ArrayList<Consulta> consultas, LocalDate data, LocalTime horario) throws HorarioForaDoExpedienteException, DiaForaDoExpedienteException {
+	public Consulta procurarConsultaPorParametros(ArrayList<Consulta> consultas, LocalDate data, LocalTime horario) 
+			throws HorarioForaDoExpedienteException, DiaForaDoExpedienteException {
 		agendaMedica.validarDia(data);
 		agendaMedica.validarHorario(horario);
 		

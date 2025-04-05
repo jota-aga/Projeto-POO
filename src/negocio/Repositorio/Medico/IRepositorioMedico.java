@@ -1,11 +1,7 @@
 package negocio.Repositorio.Medico;
 
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
-import negocio.Entidades.Consulta;
 import negocio.Entidades.Medico;
 
 public interface IRepositorioMedico {
