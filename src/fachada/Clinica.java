@@ -10,6 +10,7 @@ import negocio.Entidades.Consulta;
 import negocio.Entidades.Medico;
 import negocio.Entidades.Paciente;
 import negocio.Exceptions.*;
+import negocio.Negocio.NegocioAgendaMedica;
 import negocio.Negocio.NegocioMedico;
 import negocio.Negocio.NegocioPaciente;
 import dados.MedicoArrayList;
@@ -18,11 +19,13 @@ import dados.PacienteArrayList;
 public class Clinica {
 	protected final NegocioPaciente negocioPaciente;
 	private final NegocioMedico negocioMedico;
+	private final NegocioAgendaMedica negocioAgenda;
 	
 	
 	public Clinica() {
 		negocioPaciente = new NegocioPaciente(new PacienteArrayList());
 		negocioMedico = new NegocioMedico (new MedicoArrayList());
+		negocioAgenda = new NegocioAgendaMedica();
 	}
 	
 	
@@ -108,13 +111,17 @@ public class Clinica {
 			HorarioForaDoExpedienteException, HorarioJaReservadoException, ConsultaNaoExisteException {
 		
 		Paciente paciente = negocioPaciente.findByCpf(cpf);
-		Consulta consulta = negocioMedico.procurarConsulta(crm, data, horario);
+		
+		Medico medico = negocioMedico.procurarPorCrm(crm);
+		ArrayList<Consulta> consultas = medico.getAgenda().getAgendaMedica();
+		
+		Consulta consulta = negocioAgenda.procurarConsultaPorParametros(consultas, data, horario);
 		
 		if(consulta == null) {
 			throw new ConsultaNaoExisteException();
 		}
 		
-		negocioMedico.agendarConsulta(consulta, paciente);
+		negocioAgenda.agendarConsulta(consulta, paciente);
 	}
 	
 	
@@ -134,14 +141,14 @@ public class Clinica {
 		if(consulta == null) {
 			throw new ConsultaNaoExisteException();
 		}else {
-			negocioMedico.cancelarConsulta(consulta, paciente);
+			negocioAgenda.cancelarConsulta(consulta, paciente);
 		}
 	}
 
 
 	public void listarConsultas(String cpf) throws MedicoNaoExisteException {
-
-		negocioMedico.listarConsultas(cpf);
+		Medico medico = negocioMedico.procurarPorCpf(cpf);
+		negocioAgenda.listarConsultasMedico(medico);
 	}
 
 

@@ -2,21 +2,16 @@ package negocio.Negocio;
 
 
 
-import negocio.Exceptions.DiaForaDoExpedienteException;
 import negocio.Exceptions.EspecialidadeNaoCadastradaException;
-import negocio.Exceptions.HorarioForaDoExpedienteException;
-import negocio.Exceptions.HorarioJaReservadoException;
 import negocio.Exceptions.MedicoJaExisteException;
 import negocio.Exceptions.MedicoNaoExisteException;
 import negocio.Repositorio.Medico.IRepositorioMedico;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
-import negocio.Entidades.Consulta;
+
 import negocio.Entidades.Medico;
-import negocio.Entidades.Paciente;
+
 
 
 
@@ -82,7 +77,6 @@ public class NegocioMedico {
 	}
 	
 	
-	
 	public void editarMedico(Medico medico) throws MedicoNaoExisteException {
 		Medico p = repositorio.consultar(medico);
 		
@@ -93,54 +87,6 @@ public class NegocioMedico {
 		}
 	}
 	
-	public Consulta procurarConsultaPorId(String id, String crm) {
-		Medico medico = repositorio.procurarPorCrm(crm);
-		
-		for(Consulta c : medico.getAgenda().getAgendaMedica()) {
-			if(c.getId().equals(id)) {
-				return c;
-			}
-		}
-		return null;
-	}
-	
-	public Consulta procurarConsulta(String crm, LocalDate data, LocalTime horario) throws HorarioForaDoExpedienteException, DiaForaDoExpedienteException {
-		Medico medico = repositorio.procurarPorCrm(crm);
-		
-		medico.getAgenda().validarHorario(horario);
-		medico.getAgenda().validarDia(data);
-		
-		for(Consulta c : medico.getAgenda().getAgendaMedica()) {
-			if(c.getData().equals(data) && c.getHora().equals(horario)) {
-				return c;
-			}
-		}
-		return null;
-	}
-	
-	public void listarConsultas(String cpf) throws MedicoNaoExisteException{
-		Medico medico = repositorio.procurarPorCpf(cpf);
-
-		for(Consulta c : medico.getAgenda().getAgendaMedica()) {
-			System.out.println(c);
-		}
-	}
-	
-	public void agendarConsulta(Consulta consulta, Paciente paciente) throws HorarioJaReservadoException  {
-		if(consulta.getPaciente() == null) {
-			consulta.Agendar(paciente);
-			paciente.adicionarConsulta(consulta);
-		} else {
-			throw new HorarioJaReservadoException();
-		}
-	}
-	
-	public void cancelarConsulta(Consulta consulta, Paciente paciente)  {
-
-		consulta.Cancelar();
-		paciente.removerConsulta(consulta);
-	}
-
 	public void listarMedicos(){
 		repositorio.listar();
 	}

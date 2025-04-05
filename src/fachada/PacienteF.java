@@ -4,15 +4,16 @@ package fachada;
 import negocio.Entidades.Consulta;
 import negocio.Entidades.Medico;
 import negocio.Exceptions.*;
-
+import negocio.Negocio.NegocioAgendaMedica;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class PacienteF extends Clinica{
-
+	private NegocioAgendaMedica negocioAgenda;
 
     public PacienteF(){
+    	negocioAgenda = new NegocioAgendaMedica();
     }
 
     @Override
@@ -47,12 +48,7 @@ public class PacienteF extends Clinica{
     
     public void listarConsultasDisponiveis(String crm) throws MedicoNaoExisteException {
     	Medico medico = procurarMedicoPorCrm(crm);
-    	
-    	for(Consulta consulta : medico.getAgenda().getAgendaMedica()) {
-    		if(consulta.getPaciente() == null) {
-    			System.out.println("Data: "+consulta.getData()+"/ Horario: "+consulta.getHora());
-    		}
-    	}
+    	negocioAgenda.listarConsultasDisponiveis(medico);
     	
     }
 

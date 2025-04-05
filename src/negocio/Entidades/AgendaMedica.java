@@ -10,7 +10,7 @@ import negocio.Exceptions.HorarioForaDoExpedienteException;
 
 
 public class AgendaMedica {
-	private final Medico medico;
+	private Medico medico;
 	private ArrayList<Consulta> agendaMedica;
 	
 	public AgendaMedica(Medico medico) {
@@ -19,6 +19,10 @@ public class AgendaMedica {
 				this.medico.getInicioDeAtendimento(), 
 				this.medico.getFimDeAtendimento(), 
 				this.medico.getDiasDeAtendimento());
+	}
+	
+	public AgendaMedica() {
+		
 	}
 
 	//Gera uma agenda de 30 dias para o médico
