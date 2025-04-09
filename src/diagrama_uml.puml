@@ -1,0 +1,125 @@
+
+@startuml DiagramaClinicaAvancado
+
+
+
+package "Entidades" {
+    abstract class Pessoa {
+        -id: String
+        -nome: String
+        -cpf: String
+        -email: String
+        -telefone: String
+        -dataNascimento: LocalDate
+        +getInformacoes(): String
+    }
+
+    class Paciente {
+        -cartaoMedico: String
+        -consultas: ArrayList<Consulta>
+        +adicionarConsulta(Consulta): void
+        +removerConsulta(Consulta): void
+        +getConsultas(): ArrayList<Consulta>
+    }
+
+    class Medico {
+        -especialidade: String
+        -crm: String
+        -diasDeAtendimento: ArrayList<DayOfWeek>
+        -inicioDeAtendimento: LocalTime
+        -fimDeAtendimento: LocalTime
+        -agenda: AgendaMedica
+        +getAgenda(): AgendaMedica
+    }
+
+    class Consulta {
+        -data: LocalDate
+        -hora: LocalTime
+        -paciente: Paciente
+        +agendar(Paciente): void
+        +cancelar(): void
+    }
+
+    class AgendaMedica {
+        -medico: Medico
+        -agendaMedica: ArrayList<Consulta>
+        +acessarAgenda(): ArrayList<Consulta>
+        +cancelarConsulta(Consulta): void
+        +listarDisponiveis(): ArrayList<Consulta>
+    }
+
+    Pessoa <|-- Paciente
+    Pessoa <|-- Medico
+    Paciente "1" --> "*" Consulta : realiza >
+    Consulta "*" --> "1" Paciente : pertence >
+    Medico "1" --> "1" AgendaMedica : possui >
+    AgendaMedica --> "*" Consulta : organiza >
+}
+
+package "Negócio" {
+    class NegocioPaciente {
+        +adicionarPaciente(Paciente): void
+        +removerPaciente(String): void
+        +procurarPorCpf(String): Paciente
+    }
+
+    class NegocioMedico {
+        +adicionarMedico(Medico): void
+        +removerMedico(String): void
+        +procurarPorCpf(String): Medico
+    }
+
+    class NegocioAgendaMedica {
+        +agendarConsulta(Consulta, Paciente): void
+        +cancelarConsulta(Consulta): void
+        +acessarAgendaDoMedico(Medico): ArrayList<Consulta>
+    }
+
+    NegocioAgendaMedica ..> HorarioForaDoExpedienteException
+    NegocioAgendaMedica ..> HorarioJaReservadoException
+    NegocioPaciente ..> PacienteNaoExisteException
+}
+
+package "Dados" {
+    interface IRepositorioMedico {
+        +adicionar(Medico): void
+        +remover(String): void
+        +procurarPorCpf(String): Medico
+    }
+
+    class MedicoArrayList implements IRepositorioMedico
+
+    interface IRepositorioPacientes {
+        +adicionar(Paciente): void
+        +remover(String): void
+        +procurarPorCpf(String): Paciente
+    }
+
+    class PacienteArrayList implements IRepositorioPacientes
+}
+
+package "Fachada" {
+    class Clinica {
+        +adicionarPaciente(...)
+        +adicionarMedico(...)
+        +agendarConsulta(...)
+        +cancelarConsulta(...)
+    }
+
+    class PacienteF
+    class AssistenteFachada
+
+    Clinica <|-- PacienteF
+    Clinica <|-- AssistenteFachada
+}
+
+package "Interface" {
+    class TelaPrincipal
+    class TelaPaciente
+    class TelaGerenciamentoMedicoAdm
+    class TelaGerenciamentoPacienteAdm
+}
+
+
+
+@enduml
